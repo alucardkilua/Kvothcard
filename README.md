@@ -22,6 +22,7 @@ gerenciador-usuarios/
 ├── backend/
 │   └── (estrutura futura da API)
 │
+├── .env
 ├── .gitignore
 └── README.md
 ```
