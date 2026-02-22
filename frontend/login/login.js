@@ -1,36 +1,34 @@
-const form = document.getElementById('loginForm');
-const errorMessage = document.getElementById('errorMessage');
+const form = document.getElementById("loginForm");
+const errorMessage = document.getElementById("errorMessage");
 
-form.addEventListener('submit', async (event) => {
-    event.preventDefault();
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
 
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+  errorMessage.textContent = "";
 
-    try {
-        // Futuramente será integração com API
-        const response = await fakeLoginRequest(email, password);
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-        if (response.success) {
-            alert('Login realizado com sucesso!');
-            window.location.href = "../home/home.html";
-        } else {
-            errorMessage.textContent = response.message;
-        }
-
-    } catch (error) {
-        errorMessage.textContent = "Erro ao conectar com o servidor.";
-    }
-});
-
-function fakeLoginRequest(email, password) {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            if (email === "admin@email.com" && password === "123456") {
-                resolve({ success: true });
-            } else {
-                resolve({ success: false, message: "Credenciais inválidas." });
-            }
-        }, 1000);
+  try {
+    const response = await fetch("http://localhost:3000/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
     });
-}
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Erro ao fazer login");
+    }
+
+    // Futuramente aqui entraremos com JWT
+    console.log("Usuário autenticado:", data.user);
+
+    window.location.href = "../home/home.html";
+  } catch (error) {
+    errorMessage.textContent = error.message;
+  }
+});
