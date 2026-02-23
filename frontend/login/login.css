@@ -6,8 +6,12 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f6f9;
     height: 100vh;
+    overflow: hidden;
+    background-image: url("/frontend/login/Imagens/Cosmos.png"); /* Plano de fundo */
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.85) contrast(0.95) saturate(1.1);
     display: flex;
     justify-content: center;
     align-items: center;
